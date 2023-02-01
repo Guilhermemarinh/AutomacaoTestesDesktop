@@ -1,0 +1,56 @@
+﻿function abrirLoginha() {
+  TestedApps.Lojinha.Run();
+  
+}
+
+function login(usuario, senha){
+ //Clicando na aba de login
+ Aliases.Lojinha.frmPrincipal.pageControl.ClickTab("LOGIN");
+ //preenchendo formulario de login
+ let formularioLogin = Aliases.Lojinha.frmPrincipal.pageControl1.TabSheet1;
+ formularioLogin.edtUsuario.SetText(usuario);
+ formularioLogin.edtSenha.SetText(senha);
+ formularioLogin.btnEntrar.Click();
+ 
+}
+
+function abrirNovoProduto(){
+  Aliases.Lojinha.frmPrincipal.PageControl1.TabSheet2.Panel3.btnNovoProduto.Click();
+  
+}
+
+function submeterNovoProdutoComErro(nome, valor, cores){
+  //preencher os dados do produto
+  let formularioAdicaoProduto = Aliases.Lojinha.frmPrincipal.PageControl1.TabSheet3.Panel6
+  formularioAdicaoProduto.SetText(nome);
+  formularioAdicaoProduto.edtNovoValorProduto.SetText(valor);
+  formularioAdicaoProduto.edtNovoCoresProduto.SetText(cores);
+  
+  //pressionaro botao de adicao
+  formularioAdicaoProduto.btnSalvarProduto.Click();
+}
+
+function validarMensagemDeErro(mensagem){
+  aqObject.CheckProperty(Aliases.Lojinha.dlgLojinha.Static, "WndCaption", cmpEqual, mensagem);
+}
+
+function fecharMensagemDeErro(){
+  Aliases.lojinha.dlgLojinha.btnOK.ClickButton();
+}
+
+function fecharLoginha(){
+  Aliases.Lojinha.frmPrincipal.Close();
+}
+
+function testValidarValoresInvalidosDoProduto()
+{
+  abrirLoginha();
+  login("admin", "admin");
+  abrirNovoProduto();
+  submeterNovoProdutoComErro("Macbook", "000", "preto", "vermelho");
+  validarMensagemDeErro("O valor do produto deve estar entre R$ 0,01 e R$ 7.000,00.");
+  fecharMensagemDeErro();
+  fecharLoginha();
+  
+
+}
